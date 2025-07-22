@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .header button {
+            padding: 0.75rem 1.5rem;
+            background-color: #0f4b8f;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #0056b3;
+        }
+
+        .balance {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .balance h2 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .balance p {
+            font-size: 2rem;
+            color: #007bff;
+        }
+
+        .transactions {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .transactions h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .transactions table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transactions table, .transactions th, .transactions td {
+            border: 1px solid #ddd;
+        }
+
+        .transactions th, .transactions td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .transactions th {
+            background-color: #f8f9fa;
+        }
+
+        .transactions tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .additional-features {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 48%;
+            margin-bottom: 2rem;
+        }
+
+        .feature h3 {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .withdrawal-form input[type="text"],
+        .withdrawal-form input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .withdrawal-form button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .withdrawal-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <div class="header">
+             <img src="img/ANFCU_logo.png" alt="Logo Description" width="350" height="150">
+            <h1></h1>
+            <a href="index.html"><button>Logout</button></a>
+        </div>
+        <div class="balance">
+            <div>
+                <h2>Available Balance</h2>
+                <p>$751,089.00</p>
+            </div>
+            <button id="withdraw-button">Withdraw</button>
+        </div>
+   <div class="transactions">
+    <h2>Recent Transactions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+
+<tr>
+    <td>2025-07-22</td>
+    <td>Base Salary</td>
+    <td>+$3,800.00</td>
+</tr>
+<tr>
+    <td>2025-07-22</td>
+    <td>Housing Allowance</td>
+    <td>+$1,000.00</td>
+</tr>
+<tr>
+    <td>2025-07-22</td>
+    <td>Combat Bonus</td>
+    <td>+$750.00</td>
+</tr>
+<tr>
+    <td>2025-07-21</td>
+    <td>Special Service Bonus</td>
+    <td>+$1,500.00</td>
+</tr>
+<tr>
+    <td>2025-07-20</td>
+    <td>Salary Payment (Base)</td>
+    <td>+$3,800.00</td>
+</tr>
+<tr>
+    <td>2025-03-09</td>
+    <td>Separation Allowance Adjustment</td>
+    <td>+$200.00</td>
+</tr>
+<tr>
+    <td>2025-06-08</td>
+    <td>Unit Performance Bonus (Quarterly)</td>
+    <td>+$2,000.00</td>
+</tr>
+<tr>
+    <td>2025-05-17</td>
+    <td>Combat Deployment Compensation</td>
+    <td>+$800.00</td>
+</tr>
+<tr>
+    <td>2025-05-16</td>
+    <td>Holiday Pay</td>
+    <td>+$300.00</td>
+</tr>
+<tr>
+    <td>2025-04-15</td>
+    <td>Uniform Purchase Reimbursement</td>
+    <td>+$150.00</td>
+</tr>
+<tr>
+    <td>2025-03-04</td>
+    <td>Special Leave Pay</td>
+    <td>+$250.00</td>
+</tr>
+<tr>
+    <td>2025-03-03</td>
+    <td>Medical Benefit Refund</td>
+    <td>+$100.00</td>
+</tr>
+<tr>
+    <td>2025-03-02</td>
+    <td>Combat Duty Incentive</td>
+    <td>+$1,000.00</td>
+</tr>
+<tr>
+    <td>2025-03-01</td>
+    <td>Annual Pay Adjustment</td>
+    <td>+$500.00</td>
+</tr>
+<tr>
+    <td>2025-02-22</td>
+    <td>Bonus for Extended Service</td>
+    <td>+$2,000.00</td>
+</tr>
+<tr>
+    <td>2025-02-21</td>
+    <td>Retirement Benefit Adjustment</td>
+    <td>+$1,500.00</td>
+</tr>
+<tr>
+    <td>2025-02-20</td>
+    <td>Separation Allowance (Extended)</td>
+    <td>+$550.00</td>
+</tr>
+<tr>
+    <td>2025-02-19</td>
+    <td>Relocation Support Payment</td>
+    <td>+$700.00</td>
+</tr>
+<tr>
+    <td>2025-02-18</td>
+    <td>Deployment Completion Bonus</td>
+    <td>+$2,000.00</td>
+</tr>
+<tr>
+    <td>2025-02-17</td>
+    <td>Family Support Fund Allocation</td>
+    <td>+$400.00</td>
+</tr>
+<tr>
+    <td>2025-02-16</td>
+    <td>Additional Duty Allowance</td>
+    <td>+$300.00</td>
+</tr>
+<tr>
+    <td>2025-02-15</td>
+    <td>Pay Adjustment for Overseas Duty</td>
+    <td>+$450.00</td>
+</tr>
+<tr>
+    <td>2025-02-14</td>
+    <td>Recruitment Incentive</td>
+    <td>+$1,000.00</td>
+</tr>
+<tr>
+    <td>2025-02-13</td>
+    <td>Child Education Allowance</td>
+    <td>+$200.00</td>
+</tr>
+<tr>
+    <td>2025-02-12</td>
+    <td>Bonus for Career Milestone</td>
+    <td>+$2,500.00</td>
+</tr>
+<tr>
+    <td>2025-02-11</td>
+    <td>Veteran Assistance Grant</td>
+    <td>+$1,200.00</td>
+</tr>
+<tr>
+    <td>2025-02-10</td>
+    <td>Separation Pay</td>
+    <td>+$500.00</td>
+</tr>
+<tr>
+    <td>2025-02-09</td>
+    <td>Reenlistment Bonus (Partial)</td>
+    <td>+$600.00</td>
+</tr>
+<tr>
+    <td>2025-02-08</td>
+    <td>Unit Performance Bonus</td>
+    <td>+$1,000.00</td>
+</tr>
+<tr>
+    <td>2025-02-07</td>
+    <td>Combat Pay Bonus</td>
+    <td>+$750.00</td>
+</tr>
+<tr>
+    <td>2025-02-06</td>
+    <td>Food Allowance (Adjusted)</td>
+    <td>+$350.00</td>
+</tr>
+<tr>
+    <td>2025-02-05</td>
+    <td>Housing Allowance (Increased)</td>
+    <td>+$1,200.00</td>
+</tr>
+<tr>
+    <td>2025-02-04</td>
+    <td>Base Pay</td>
+    <td>+$3,800.00</td>
+</tr>
+<tr>
+    <td>2025-02-03</td>
+    <td>Special Duty Pay</td>
+    <td>+$900.00</td>
+</tr>
+<tr>
+    <td>2025-02-02</td>
+    <td>Field Duty Pay</td>
+    <td>+$600.00</td>
+</tr>
+<tr>
+    <td>2025-02-01</td>
+    <td>Deployment Allowance (Extended)</td>
+    <td>+$1,200.00</td>
+</tr>
+<tr>
+    <td>2025-01-25</td>
+    <td>Unit Contributions Reimbursement</td>
+    <td>+$3,000.00</td>
+</tr>
+<tr>
+    <td>2025-01-24</td>
+    <td>Base Salary Adjustment</td>
+    <td>+$250.00</td>
+</tr>
+<tr>
+    <td>2025-01-23</td>
+    <td>Travel to Home Base Allowance</td>
+    <td>+$500.00</td>
+</tr>
+<tr>
+    <td>2025-01-22</td>
+    <td>Retirement Benefit Payment</td>
+    <td>+$1,200.00</td>
+</tr>
+<tr>
+    <td>2025-01-21</td>
+    <td>Service-Connected Disability Compensation</td>
+    <td>+$750.00</td>
+</tr>
+<tr>
+    <td>2025-01-20</td>
+    <td>Emergency Family Support Loan</td>
+    <td>+$1,000.00</td>
+</tr>
+<tr>
+    <td>2025-01-19</td>
+    <td>Military Housing Loan Payment</td>
+    <td>-$1,200.00</td>
+</tr>
+<tr>
+    <td>2025-01-18</td>
+    <td>Medical Benefits Deduction</td>
+    <td>-$100.00</td>
+</tr>
+<tr>
+    <td>2025-01-17</td>
+    <td>Hazardous Duty Pay</td>
+    <td>+$550.00</td>
+</tr>
+<tr>
+    <td>2025-01-16</td>
+    <td>Retention Bonus</td>
+    <td>+$3,500.00</td>
+</tr>
+<tr>
+    <td>2025-01-15</td>
+    <td>Bonus for Deployment Completion</td>
+    <td>+$2,000.00</td>
+</tr>
+<tr>
+    <td>2025-01-14</td>
+    <td>Travel Reimbursement</td>
+    <td>+$1,500.00</td>
+</tr>
+<tr>
+    <td>2025-01-13</td>
+    <td>Uniform Allowance</td>
+    <td>+$200.00</td>
+</tr>
+<tr>
+
+             <tr>
+             <td>2025-01-06</td>
+                <td>insurance to Dewar insurance comnpany </td>
+                <td>+$500.00</td>
+            </tr>
+
+             <tr>
+                <td>2025-01-06</td>
+                <td>Servicemembers' Group Life Insurance (SGLI) premium deduction</td>
+                <td>+$200.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-06</td>
+                <td>Allotments</td>
+                <td>-$14,450.00</td>
+            </tr>
+             <tr>
+                <td>2025-01-06</td>
+                <td>Service-connected injury compensation</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-06</td>
+                <td>Unit fund contribution</td>
+                <td>-$5,000.00</td>
+            </tr>
+             <td>2025-01-05</td>
+                <td>Morale, Welfare, and Recreation (MWR) fund disbursement</td>
+                <td>+$25,000.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-04</td>
+                <td>Base Salary</td>
+                <td>+$3,625.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-04</td>
+                <td>Housing Allowance</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-03</td>
+                <td>Food Allowance</td>
+                <td>+$300.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-03</td>
+                <td>Combat Grant</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-03</td>
+                <td>Reenlistment Bonus</td>
+                <td>+$1,200.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-02</td>
+                <td>Hazard Duty Pay</td>
+                <td>+$400.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-02</td>
+                <td>Relocation Reimbursement</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-02</td>
+                <td>Deployment Allowance</td>
+                <td>+$600.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-02</td>
+                <td>Clothing Allowance</td>
+                <td>+$250.00</td>
+            </tr>
+            <tr>
+                <td>2025-01-01</td>
+                <td>Separation Allowance</td>
+                <td>+$450.00</td>
+            </tr>
+
+
+
+
+
+ <tr>
+             <td>2024-12-25</td>
+                <td>insurance to Dewar insurance comnpany </td>
+                <td>+$500.00</td>
+            </tr>
+
+             <tr>
+                <td>2024-12-15</td>
+                <td>Servicemembers' Group Life Insurance (SGLI) premium deduction</td>
+                <td>+$200.00</td>
+            </tr>
+            <tr>
+                <td>2024-12-11</td>
+                <td>Allotments</td>
+                <td>-$14,450.00</td>
+            </tr>
+             <tr>
+                <td>2024-12-07</td>
+                <td>Service-connected injury compensation</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-12-04</td>
+                <td>Unit fund contribution</td>
+                <td>-$5,000.00</td>
+            </tr>
+             <td>2024-11-25</td>
+                <td>Morale, Welfare, and Recreation (MWR) fund disbursement</td>
+                <td>+$25,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-11-15</td>
+                <td>Base Salary</td>
+                <td>+$3,625.00</td>
+            </tr>
+            <tr>
+                <td>2024-11-11</td>
+                <td>Housing Allowance</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-11-07</td>
+                <td>Food Allowance</td>
+                <td>+$300.00</td>
+            </tr>
+            <tr>
+                <td>2024-11-04</td>
+                <td>Combat Grant</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-10-25</td>
+                <td>Reenlistment Bonus</td>
+                <td>+$1,200.00</td>
+            </tr>
+             <tr>
+                <td>2024-10-19</td>
+                <td>Military insurance from Dewar Insurance Company</td>
+                <td>+$1,200,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-10-15</td>
+                <td>Hazard Duty Pay</td>
+                <td>+$400.00</td>
+            </tr>
+            <tr>
+                <td>2024-10-11</td>
+                <td>Relocation Reimbursement</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2024-10-07</td>
+                <td>Deployment Allowance</td>
+                <td>+$600.00</td>
+            </tr>
+            <tr>
+                <td>2024-10-04</td>
+                <td>Clothing Allowance</td>
+                <td>+$250.00</td>
+            </tr>
+            <tr>
+                <td>2024-10-01</td>
+                <td>Separation Allowance</td>
+                <td>+$450.00</td>
+            </tr>
+
+
+
+
+
+
+<tr>
+             <td>2024-09-25</td>
+                <td>insurance to Dewar insurance comnpany </td>
+                <td>+$500.00</td>
+            </tr>
+
+             <tr>
+                <td>2024-09-15</td>
+                <td>Servicemembers' Group Life Insurance (SGLI) premium deduction</td>
+                <td>+$200.00</td>
+            </tr>
+            <tr>
+                <td>2024-09-11</td>
+                <td>Allotments</td>
+                <td>-$14,450.00</td>
+            </tr>
+             <tr>
+                <td>2024-09-07</td>
+                <td>Service-connected injury compensation</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-09-04</td>
+                <td>Unit fund contribution</td>
+                <td>-$5,000.00</td>
+            </tr>
+             <td>2024-08-25</td>
+                <td>Morale, Welfare, and Recreation (MWR) fund disbursement</td>
+                <td>+$25,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-15</td>
+                <td>Base Salary</td>
+                <td>+$3,625.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-11</td>
+                <td>Housing Allowance</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-07</td>
+                <td>Food Allowance</td>
+                <td>+$300.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-04</td>
+                <td>Combat Grant</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-25</td>
+                <td>Reenlistment Bonus</td>
+                <td>+$1,200.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-15</td>
+                <td>Hazard Duty Pay</td>
+                <td>+$400.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-11</td>
+                <td>Relocation Reimbursement</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-07</td>
+                <td>Deployment Allowance</td>
+                <td>+$600.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-04</td>
+                <td>Clothing Allowance</td>
+                <td>+$250.00</td>
+            </tr>
+            <tr>
+                <td>2024-08-01</td>
+                <td>Separation Allowance</td>
+                <td>+$450.00</td>
+            </tr>
+
+
+
+
+
+<tr>
+             <td>2024-07-25</td>
+                <td>insurance to Dewar insurance comnpany </td>
+                <td>+$500.00</td>
+            </tr>
+
+             <tr>
+                <td>2024-07-15</td>
+                <td>Servicemembers' Group Life Insurance (SGLI) premium deduction</td>
+                <td>+$200.00</td>
+            </tr>
+            <tr>
+                <td>2024-07-11</td>
+                <td>Allotments</td>
+                <td>-$14,450.00</td>
+            </tr>
+             <tr>
+                <td>2024-07-07</td>
+                <td>Service-connected injury compensation</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-07-04</td>
+                <td>Unit fund contribution</td>
+                <td>-$5,000.00</td>
+            </tr>
+             
+
+
+
+
+
+
+
+
+
+
+             <tr>
+             <td>2024-06-06</td>
+                <td>Thrift Savings Plan (TSP) contribution</td>
+                <td>+$25,054.00</td>
+            </tr>
+
+             <tr>
+                <td>2024-06-06</td>
+                <td>Servicemembers' Group Life Insurance (SGLI) premium deduction</td>
+                <td>+$200.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-06</td>
+                <td>Allotments</td>
+                <td>-$14,450.00</td>
+            </tr>
+             <tr>
+                <td>2024-06-05</td>
+                <td>Service-connected injury compensation</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-05</td>
+                <td>Unit fund contribution</td>
+                <td>-$5,000.00</td>
+            </tr>
+             <td>2024-06-05</td>
+                <td>Morale, Welfare, and Recreation (MWR) fund disbursement</td>
+                <td>+$25,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-04</td>
+                <td>Base Salary</td>
+                <td>+$3,625.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-04</td>
+                <td>Housing Allowance</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-03</td>
+                <td>Food Allowance</td>
+                <td>+$300.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-03</td>
+                <td>Combat Grant</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-02</td>
+                <td>Reenlistment Bonus</td>
+                <td>+$1,200.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-02</td>
+                <td>Hazard Duty Pay</td>
+                <td>+$400.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-01</td>
+                <td>Relocation Reimbursement</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2024-06-01</td>
+                <td>Deployment Allowance</td>
+                <td>+$600.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-31</td>
+                <td>Clothing Allowance</td>
+                <td>+$250.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-31</td>
+                <td>Separation Allowance</td>
+                <td>+$450.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-30</td>
+                <td>Special Duty Assignment Pay</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-30</td>
+                <td>Family Separation Housing</td>
+                <td>+$700.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-29</td>
+                <td>Education Allowance</td>
+                <td>+$200.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-29</td>
+                <td>Imminent Danger Pay</td>
+                <td>+$450.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-28</td>
+                <td>Performance Bonus</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-28</td>
+                <td>Critical Skills Retention Bonus</td>
+                <td>+$1,500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-27</td>
+                <td>Combat Zone Tax Exclusion</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-27</td>
+                <td>Overseas Housing Allowance</td>
+                <td>+$1,200.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-26</td>
+                <td>Family Subsistence Supplemental Allowance</td>
+                <td>+$250.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-26</td>
+                <td>Hardship Duty Pay</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-25</td>
+                <td>Travel Allowance</td>
+                <td>+$300.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-25</td>
+                <td>Hostile Fire Pay</td>
+                <td>+$225.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-24</td>
+                <td>Moving Allowance</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-24</td>
+                <td>Station Allowance</td>
+                <td>+$400.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-23</td>
+                <td>Parachute Duty Pay</td>
+                <td>+$250.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-23</td>
+                <td>Proficiency Pay</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-22</td>
+                <td>Career Sea Pay</td>
+                <td>+$350.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-22</td>
+                <td>Base Salary</td>
+                <td>+$2,500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-21</td>
+                <td>Housing Allowance</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-21</td>
+                <td>Food Allowance</td>
+                <td>+$300.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-20</td>
+                <td>Combat Grant</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-20</td>
+                <td>Reenlistment Bonus</td>
+                <td>+$1,200.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-19</td>
+                <td>Hazard Duty Pay</td>
+                <td>+$400.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-19</td>
+                <td>Relocation Reimbursement</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-18</td>
+                <td>Deployment Allowance</td>
+                <td>+$600.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-18</td>
+                <td>Clothing Allowance</td>
+                <td>+$250.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-17</td>
+                <td>Separation Allowance</td>
+                <td>+$450.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-17</td>
+                <td>Special Duty Assignment Pay</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-16</td>
+                <td>Family Separation Housing</td>
+                <td>+$700.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-16</td>
+                <td>Education Allowance</td>
+                <td>+$200.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-15</td>
+                <td>Imminent Danger Pay</td>
+                <td>+$450.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-15</td>
+                <td>Performance Bonus</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-14</td>
+                <td>Critical Skills Retention Bonus</td>
+                <td>+$1,500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-14</td>
+                <td>Combat Zone Tax Exclusion</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-13</td>
+                <td>Overseas Housing Allowance</td>
+                <td>+$1,200.00</td>
+            </tr>
+             <td>2024-05-12</td>
+                <td>Per diem reimbursement</td>
+                <td>+$15,000.00</td>
+            </tr>
+
+
+            <tr>
+                <td>2024-05-11</td>
+                <td>Deployment bonus</td>
+                <td>+$200.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-10</td>
+                <td>Imminent Danger Pay</td>
+                <td>+$450.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-10</td>
+                <td>Hostile fire pay</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-09</td>
+                <td>Family separation allowance</td>
+                <td>+$1,500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-08</td>
+                <td>Hazardous duty pay</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-07</td>
+                <td>Life insurance premium payment</td>
+                <td>+$1,200.00</td>
+            </tr>
+             <td>2024-05-06</td>
+                <td>Thrift Savings Plan (TSP) contribution</td>
+                <td>+$25,054.00</td>
+            </tr>
+
+             <tr>
+                <td>2024-05-06</td>
+                <td>Servicemembers' Group Life Insurance (SGLI) premium deduction</td>
+                <td>+$200.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-06</td>
+                <td>Allotments</td>
+                <td>-$14,450.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-05</td>
+                <td>Childcare subsidy reimbursement</td>
+                <td>+$7,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-05</td>
+                <td>Education allowance reimbursement</td>
+                <td>+$4,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-05</td>
+                <td>Health care co-pay reimbursement</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-05</td>
+                <td>Telephone bill</td>
+                <td>-$200.00</td>
+            </tr>
+             <td>2024-05-05</td>
+                <td>Internet allowance</td>
+                <td>-$54.00</td>
+            </tr>
+
+
+            <tr>
+                <td>2024-05-05</td>
+                <td>Service-connected injury compensation</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-05</td>
+                <td>Unit fund contribution</td>
+                <td>-$5,000.00</td>
+            </tr>
+             <td>2024-05-05</td>
+                <td>Morale, Welfare, and Recreation (MWR) fund disbursement</td>
+                <td>+$25,000.00</td>
+            </tr>
+
+            <tr>
+                <td>2024-05-04</td>
+                <td>Base Salary</td>
+                <td>+$3,625.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-04</td>
+                <td>Housing Allowance</td>
+                <td>+$1,000.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-03</td>
+                <td>Food Allowance</td>
+                <td>+$300.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-03</td>
+                <td>Combat Grant</td>
+                <td>+$500.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-02</td>
+                <td>Reenlistment Bonus</td>
+                <td>+$1,200.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-02</td>
+                <td>Hazard Duty Pay</td>
+                <td>+$400.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-01</td>
+                <td>Relocation Reimbursement</td>
+                <td>+$800.00</td>
+            </tr>
+            <tr>
+                <td>2024-05-01</td>
+                <td>Deployment Allowance</td>
+                <td>+$600.00</td>
+            </tr>
+            <br>Official Military Financial Statement
+
+<br>In accordance with military confidentiality protocols and pursuant to [applicable military regulation/law, e.g., DoD Directive 5200.1], detailed transaction records beyond the past two months cannot be displayed. For comprehensive transaction histories or additional inquiries, service members are directed to contact the Military Financial Department.
+<hr><hr>
+        </div>
+    
+    </div>
+
+    <!-- The Modal -->
+    <div id="withdrawal-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Withdrawal Form</h2>
+            <form id="withdrawal-form" class="withdrawal-form">
+                <input type="text" id="recipient-name" placeholder="Recipient Name" required>
+                 <input type="text" id="recipient-name" placeholder="Recipient Account Number" required>
+                <input type="text" id="recipient-account" placeholder="Recipient Routing Number" required>
+                <input type="number" id="amount" placeholder="Amount" required>
+                <button type="submit">Send</button>
+                <div class="error-message" id="error-message" style="display: none;">
+                    Error processing transaction. Please try again.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get modal elements
+        var modal = document.getElementById("withdrawal-modal");
+        var btn = document.getElementById("withdraw-button");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Open modal
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // Close modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close modal when clicking outside of the modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Handle withdrawal form submission
+        document.getElementById('withdrawal-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('error-message').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
